@@ -13,7 +13,7 @@ const theme = extendTheme({
   },
   colors: {
     brand: {
-      500: '#24D366', // Primary Green
+      green: '#23C45E', // Primary Green
       dark: '#202124', // Headings, main text
       grey: '#5F6368', // Subtext, placeholders
       lightGrey: '#F1F3F4', // Background blocks
