@@ -899,7 +899,7 @@ const FormBuilder: React.FC = () => {
                     {form.fields?.map((field) => renderFieldPreview(field))}
                     <Button 
                       leftIcon={<Icon as={FaWhatsapp as React.ElementType} boxSize={6} />} 
-                      bg="#24D366" 
+                      bg="green.500" 
                       color="white" 
                       size="lg" 
                       fontWeight="bold" 

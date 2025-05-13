@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
             <MenuButton
               as={Avatar}
               size="md"
-              bg={accent}
+              bg='green.500'
               color="white"
               fontWeight="bold"
               cursor="pointer"

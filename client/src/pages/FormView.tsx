@@ -16,10 +16,12 @@ import {
   Spinner,
   Alert,
   AlertIcon,
+  Icon,
   AlertTitle,
   AlertDescription,
   HStack,
 } from '@chakra-ui/react';
+import { FaWhatsapp } from 'react-icons/fa';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -226,7 +228,7 @@ const FormView: React.FC = () => {
                 isInvalid={!!errors[field.id]}
                 w="100%"
               >
-                <FormLabel fontSize={{ base: 'sm', md: 'md' }}>{field.label} {(field.required || field.type === 'email') && <span style={{ color: 'red' }}>*</span>}</FormLabel>
+                <FormLabel fontSize={{ base: 'sm', md: 'md' }}>{field.label} {(field.required || field.type === 'email')}</FormLabel>
                 {field.type === 'text' && (
                   <Input
                     value={formData[field.id] || ''}
@@ -348,14 +350,16 @@ const FormView: React.FC = () => {
             ))}
 
             <Button
+              leftIcon={<Icon as={FaWhatsapp as React.ElementType} boxSize={6} />}
+              bg="green.500" 
+              color="white" 
               type="submit"
-              colorScheme="blue"
               size="lg"
               width={{ base: '100%', md: 'full' }}
               isLoading={isSubmitting}
               fontSize={{ base: 'md', md: 'lg' }}
             >
-              Submit
+              Submit Via Whatsapp
             </Button>
           </VStack>
         </form>
