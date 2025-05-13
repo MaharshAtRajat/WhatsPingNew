@@ -150,7 +150,7 @@ const FormView: React.FC = () => {
       const whatsappUrl = `https://wa.me/${form.country_code}${form.whatsapp_number}?text=${encodeURIComponent(message)}`;
 
       // Open WhatsApp in new tab
-      window.open(whatsappUrl, '_blank');
+      window.open(whatsappUrl, '_self');
 
       toast({
         title: 'Success',
@@ -159,6 +159,9 @@ const FormView: React.FC = () => {
         duration: 3000,
         isClosable: true,
       });
+
+      // Redirect to Thank You page
+      navigate(`/forms/${form.id}/thankyou`);
 
       // Reset form
       setFormData({});

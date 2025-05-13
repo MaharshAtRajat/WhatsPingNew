@@ -12,6 +12,7 @@ export interface Form {
   responses?: number;
   whatsapp_number?: string;
   country_code?: string;
+  submission_message?: string;
 }
 
 export interface FormField {

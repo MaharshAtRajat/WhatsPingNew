@@ -9,6 +9,7 @@ import FormBuilder from './pages/FormBuilder';
 import FormView from './pages/FormView';
 import FormEdit from './pages/FormEdit';
 import Submissions from './pages/Submissions';
+import ThankYou from 'pages/ThankYou';  
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
@@ -61,6 +62,12 @@ const AppRoutes: React.FC = () => {
               <Submissions />
             </PrivateRoute>
           }
+        />
+        <Route 
+          path="/forms/:formId/thankyou" 
+          element={
+            <ThankYou />
+          } 
         />
         <Route path="/" element={<Navigate to="/dashboard" />} />
       </Routes>

@@ -48,6 +48,8 @@ import { Form, FormField } from '../types';
 import { FaHeading, FaRegKeyboard, FaHashtag, FaCalendarAlt, FaChevronDown, FaDotCircle, FaCheckSquare, FaWhatsapp, FaPlus } from 'react-icons/fa';
 import { useAuth } from '../contexts/AuthContext';
 import BreadcrumbNav from '../components/BreadcrumbNav';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const FormBuilder: React.FC = () => {
   const { formId } = useParams<{ formId: string }>();
@@ -100,6 +102,10 @@ const FormBuilder: React.FC = () => {
   const filteredElements = availableElements.filter(e =>
     e.label.toLowerCase().includes(search.toLowerCase())
   );
+
+  const { isOpen: isMsgOpen, onOpen: onMsgOpen, onClose: onMsgClose } = useDisclosure();
+  const [submissionMessage, setSubmissionMessage] = useState(form.submission_message || '<strong>Thank You!</strong>');
+  const [isSavingMessage, setIsSavingMessage] = useState(false);
 
   useEffect(() => {
     if (formId) {
@@ -761,6 +767,7 @@ const FormBuilder: React.FC = () => {
                       >
                         Publish Form
                       </Button>
+                      <Button onClick={onMsgOpen} colorScheme="green" variant="outline">Submission Message</Button>
                     </HStack>
                   </Flex>
                 </Box>
@@ -935,6 +942,51 @@ const FormBuilder: React.FC = () => {
             >
               Delete Form and All Submissions
             </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Submission Message Modal */}
+      <Modal isOpen={isMsgOpen} onClose={onMsgClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Edit Submission Message</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <ReactQuill
+              value={submissionMessage}
+              onChange={setSubmissionMessage}
+              theme="snow"
+              modules={{
+                toolbar: [
+                  [{ 'header': [1, 2, false] }],
+                  ['bold', 'italic', 'underline', 'strike'],
+                  [{ 'color': [] }, { 'background': [] }],
+                  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                  ['link'],
+                  ['clean']
+                ]
+              }}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="green" mr={3} onClick={async () => {
+              setIsSavingMessage(true);
+              const { error } = await supabase
+                .from('forms')
+                .update({ submission_message: submissionMessage })
+                .eq('id', form.id);
+              setIsSavingMessage(false);
+              if (!error) {
+                setForm(prev => ({ ...prev, submission_message: submissionMessage }));
+                onMsgClose();
+              } else {
+                // Optionally show a toast for error
+              }
+            }} isLoading={isSavingMessage}>
+              Save
+            </Button>
+            <Button variant="ghost" onClick={onMsgClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
