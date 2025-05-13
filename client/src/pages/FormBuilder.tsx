@@ -653,26 +653,31 @@ const FormBuilder: React.FC = () => {
   return (
     <>
       <BreadcrumbNav />
-      <Box bg="background.tertiary" minH="100vh" py={8}>
-        <Container maxW="container.xl">
+      <Box bg="background.tertiary" minH="100vh" py={{ base: 4, md: 8 }}>
+        <Container maxW={{ base: '100%', md: 'container.xl' }} px={{ base: 2, md: 8 }}>
           <Grid
             templateColumns={{ base: '1fr', lg: '1.1fr 2fr 1.2fr' }}
-            gap={8}
+            gap={{ base: 4, md: 8 }}
             alignItems="flex-start"
+            overflowX={{ base: 'visible', md: 'visible' }}
+            maxW="100vw"
           >
             {/* Elements Panel */}
-            <GridItem>
+            <GridItem colSpan={{ base: 1, lg: 1 }}>
               <Box
                 bg="white"
                 borderRadius="card"
                 boxShadow="card"
                 border="1px solid"
                 borderColor="gray.100"
-                minH="600px"
+                minH="400px"
                 p={0}
+                mb={{ base: 4, lg: 0 }}
+                maxW="100vw"
+                overflowX="auto"
               >
-                <Box borderBottom="1px solid" borderColor="gray.100" pb={3} pt={4} px={5} borderTopRadius="card">
-                  <Text fontSize="lg" fontWeight="bold" color="gray.900" fontFamily="Inter, sans-serif">
+                <Box borderBottom="1px solid" borderColor="gray.100" pb={3} pt={4} px={3} borderTopRadius="card">
+                  <Text fontSize={{ base: 'md', md: 'lg' }} fontWeight="bold" color="gray.900" fontFamily="Inter, sans-serif">
                     Elements
                   </Text>
                   <Text fontSize="sm" color="gray.500" mt={1}>
@@ -724,6 +729,7 @@ const FormBuilder: React.FC = () => {
                             fields: [...(prev.fields || []), newField],
                           }));
                         }}
+                        w={{ base: '100%', md: 'auto' }}
                       >
                         {el.label}
                       </Button>
@@ -734,48 +740,52 @@ const FormBuilder: React.FC = () => {
             </GridItem>
 
             {/* Form Designer */}
-            <GridItem>
+            <GridItem colSpan={{ base: 1, lg: 1 }}>
               <Box
                 bg="white"
                 borderRadius="card"
                 boxShadow="card"
                 border="1px solid"
                 borderColor="gray.100"
-                minH="600px"
+                minH="400px"
                 p={0}
+                mb={{ base: 4, lg: 0 }}
+                maxW="100vw"
+                overflowX="auto"
               >
-                <Box borderBottom="1px solid" borderColor="gray.100" pb={3} pt={4} px={5} borderTopRadius="card">
-                  <Flex justify="space-between" align="center">
-                    <Box>
+                <Box borderBottom="1px solid" borderColor="gray.100" pb={3} pt={4} px={3} borderTopRadius="card">
+                  <Flex justify="space-between" align="center" direction={{ base: 'column', md: 'row' }}>
+                    <Box w="100%">
                       {/* Removed duplicate header and subtitle */}
                     </Box>
-                    <HStack spacing={3}>
+                    <HStack spacing={2} mt={{ base: 2, md: 0 }} w={{ base: '100%', md: 'auto' }} justifyContent={{ base: 'center', md: 'flex-end' }}>
                       <Button
-                        leftIcon={<Icon as={FaWhatsapp as React.ElementType} />}
+                        //leftIcon={<Icon as={FaWhatsapp as React.ElementType} />}
                         colorScheme="green"
                         variant="outline"
                         onClick={() => handleSave(true)}
                         isLoading={isLoading}
+                        w={{ base: '100%', md: 'auto' }}
                       >
                         Save Draft
                       </Button>
                       <Button
-                        leftIcon={<Icon as={FaWhatsapp as React.ElementType} />}
+                        //leftIcon={<Icon as={FaWhatsapp as React.ElementType} />}
                         colorScheme="green"
                         onClick={() => handleSave(false)}
                         isLoading={isLoading}
+                        w={{ base: '100%', md: 'auto' }}
                       >
                         Publish Form
                       </Button>
-                      <Button onClick={onMsgOpen} colorScheme="green" variant="outline">Submission Message</Button>
                     </HStack>
                   </Flex>
                 </Box>
-                <Box px={5} py={6}>
+                <Box px={{ base: 2, md: 5 }} py={{ base: 3, md: 6 }}>
                   {/* WhatsApp Settings */}
                   <Box mb={6} p={4} bg="gray.50" borderRadius="lg">
                     <Text fontWeight="medium" mb={3}>WhatsApp Settings</Text>
-                    <HStack spacing={4}>
+                    <HStack spacing={4} flexDirection={{ base: 'column', md: 'row' }} alignItems={{ base: 'stretch', md: 'center' }}>
                       <FormControl>
                         <FormLabel fontSize="sm">Country Code</FormLabel>
                         <Select
@@ -809,7 +819,7 @@ const FormBuilder: React.FC = () => {
                     placeholder="Untitled Form"
                     size="lg"
                     fontWeight="bold"
-                    fontSize="2xl"
+                    fontSize={{ base: 'xl', md: '2xl' }}
                     border="none"
                     _focus={{ border: "1px solid", borderColor: "brand.500", boxShadow: "none" }}
                     fontFamily="Inter, sans-serif"
@@ -871,17 +881,19 @@ const FormBuilder: React.FC = () => {
             </GridItem>
 
             {/* Form Preview */}
-            <GridItem>
+            <GridItem colSpan={{ base: 1, lg: 1 }}>
               <Box
                 bg="white"
                 borderRadius="card"
                 boxShadow="card"
                 border="1px solid"
                 borderColor="gray.100"
-                minH="600px"
+                minH="400px"
                 p={0}
+                maxW="100vw"
+                overflowX="auto"
               >
-                <Box px={5} py={6}>
+                <Box px={{ base: 2, md: 5 }} py={{ base: 3, md: 6 }}>
                   <VStack spacing={6} align="stretch">
                     <Divider />
                     {form.fields?.map((field) => renderFieldPreview(field))}
@@ -896,6 +908,7 @@ const FormBuilder: React.FC = () => {
                       py={6} 
                       fontSize="lg" 
                       _hover={{ bg: '#22C55E' }}
+                      w={{ base: '100%', md: 'auto' }}
                     >
                       Submit via WhatsApp
                     </Button>

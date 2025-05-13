@@ -24,18 +24,20 @@ const ThankYou: React.FC = () => {
   if (loading) return <Spinner />;
 
   return (
-    <Container maxW="container.md" py={16}>
+    <Container maxW={{ base: '100%', md: 'container.md' }} py={{ base: 8, md: 16 }} px={{ base: 2, md: 8 }}>
       <Box textAlign="center">
-        <Heading mb={4}>Thank You!</Heading>
-        <Text fontSize="lg" mb={4}>
+        <Heading mb={{ base: 2, md: 4 }} size={{ base: 'md', md: 'lg' }}>Thank You!</Heading>
+        <Text fontSize={{ base: 'md', md: 'lg' }} mb={{ base: 2, md: 4 }}>
           {form?.user_id && <>From: <b>{form.user_id}</b></>}
         </Text>
         <Box
-          mt={6}
-          p={6}
+          mt={{ base: 4, md: 6 }}
+          p={{ base: 3, md: 6 }}
           borderRadius="lg"
           bg="white"
           boxShadow="md"
+          fontSize={{ base: 'md', md: 'lg' }}
+          wordBreak="break-word"
           dangerouslySetInnerHTML={{ __html: form?.submission_message || "<strong>Thank You!</strong>" }}
         />
       </Box>

@@ -150,7 +150,7 @@ const Dashboard: React.FC = () => {
   );
 
   return (
-    <Box bg={useColorModeValue('gray.50', 'gray.900')} minH="100vh">
+    <Box bg={useColorModeValue('gray.50', 'gray.900')} minH="100vh" px={{ base: 2, md: 0 }}>
       {/* Header */}
       {/* <Flex as="header" align="center" justify="space-between" px={8} py={4} bg="white" borderBottomWidth={1} borderColor={borderColor}>
         <HStack spacing={3}>
@@ -163,11 +163,11 @@ const Dashboard: React.FC = () => {
         </HStack>
       </Flex> */}
 
-      <Container maxW="6xl" py={10}>
+      <Container maxW={{ base: '100%', md: '6xl' }} py={{ base: 4, md: 10 }} px={{ base: 2, md: 8 }}>
         {/* Dashboard Title & Subtitle */}
-        <Box mb={8}>
-          <Heading size="xl" fontWeight="bold">Dashboard</Heading>
-          <Text color="gray.500" mt={2} fontSize="lg">
+        <Box mb={{ base: 4, md: 8 }}>
+          <Heading size={{ base: 'lg', md: 'xl' }} fontWeight="bold">Dashboard</Heading>
+          <Text color="gray.500" mt={2} fontSize={{ base: 'md', md: 'lg' }}>
             Manage your WhatsApp forms and view submission data
           </Text>
         </Box>
@@ -193,9 +193,9 @@ const Dashboard: React.FC = () => {
         </SimpleGrid>
 
         {/* Create New Form Section */}
-        <Box mb={12}>
-          <Heading size="md" mb={4}>Create New Form</Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
+        <Box mb={{ base: 8, md: 12 }}>
+          <Heading size={{ base: 'md', md: 'md' }} mb={4}>Create New Form</Heading>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
             {/* Blank Form Card */}
             <Box bg={cardBg} borderRadius="xl" borderWidth={1} borderColor={borderColor} p={8} textAlign="center" boxShadow="sm">
               <Box fontSize="4xl" mb={3} color={accent}>
@@ -228,21 +228,24 @@ const Dashboard: React.FC = () => {
 
         {/* Your Forms Section */}
         <Box>
-          <Heading size="md" mb={4}>Your Forms</Heading>
-          <Flex mb={4} justify="space-between" align="center">
+          <Heading size={{ base: 'md', md: 'md' }} mb={4}>Your Forms</Heading>
+          <Flex mb={4} justify="space-between" align="center" direction={{ base: 'column', md: 'row' }} gap={{ base: 2, md: 0 }}>
             <Input
               placeholder="Search forms..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              maxW="320px"
+              maxW={{ base: '100%', md: '320px' }}
               bg={cardBg}
               borderColor={borderColor}
               borderRadius="md"
+              mb={{ base: 2, md: 0 }}
             />
-            <Button colorScheme="green" onClick={() => navigate('/forms/new')}>Create New Form</Button>
+            <Button colorScheme="green" onClick={() => navigate('/forms/new')} w={{ base: '100%', md: 'auto' }}>Create New Form</Button>
           </Flex>
-          <Box bg={cardBg} borderRadius="xl" borderWidth={1} borderColor={borderColor} p={0} boxShadow="sm">
-            <Table variant="simple" size="md">
+
+          {/* Responsive Table: Cards on mobile, table on desktop */}
+          <Box display={{ base: 'none', md: 'block' }} bg={cardBg} borderRadius="xl" borderWidth={1} borderColor={borderColor} p={0} boxShadow="sm" overflowX="auto">
+            <Table variant="simple" size="md" minWidth="600px">
               <Thead>
                 <Tr>
                   <Th fontWeight="bold">Form Title</Th>
@@ -297,6 +300,40 @@ const Dashboard: React.FC = () => {
               </Tbody>
             </Table>
           </Box>
+
+          {/* Mobile Cards */}
+          <VStack display={{ base: 'flex', md: 'none' }} spacing={4} align="stretch">
+            {isLoading ? (
+              <Box bg={cardBg} borderRadius="xl" borderWidth={1} borderColor={borderColor} p={6} textAlign="center">
+                <Text>Loading...</Text>
+              </Box>
+            ) : filteredForms.length === 0 ? (
+              <Box bg={cardBg} borderRadius="xl" borderWidth={1} borderColor={borderColor} p={6} textAlign="center">
+                <Text color="gray.500">No forms found.</Text>
+              </Box>
+            ) : filteredForms.map((form) => (
+              <Box key={form.id} bg={cardBg} borderRadius="xl" borderWidth={1} borderColor={borderColor} p={4} boxShadow="sm">
+                <Flex justify="space-between" align="center" mb={2}>
+                  <Text fontWeight="semibold" color={form.status === 'published' ? accent : 'gray.700'} fontSize="lg">{form.title}</Text>
+                  <Badge colorScheme={form.status === 'published' ? 'green' : 'yellow'} variant="subtle" fontSize="sm" px={2} py={1} borderRadius="md">
+                    {form.status === 'published' ? 'Published' : 'Draft'}
+                  </Badge>
+                </Flex>
+                {form.description && <Text color="gray.500" fontSize="sm" mb={2}>{form.description}</Text>}
+                <Text fontSize="sm" color="gray.500" mb={1}>Created: {new Date(form.created_at).toLocaleDateString()}</Text>
+                <Text fontSize="sm" color="gray.500" mb={2}>Responses: <Button variant="link" colorScheme="blue" size="sm" onClick={() => navigate(`/forms/${form.id}/submissions`)} fontWeight="bold">{form.responses}</Button></Text>
+                <Divider my={2} />
+                <Flex gap={2} wrap="wrap">
+                  <IconButton aria-label="Edit" icon={<EditIcon />} size="sm" onClick={() => navigate(`/forms/${form.id}/edit`)} />
+                  <IconButton aria-label="Duplicate" icon={<CopyIcon />} size="sm" onClick={() => handleDuplicate(form)} />
+                  <IconButton aria-label="Copy Link" icon={<ExternalLinkIcon />} size="sm" onClick={() => handleCopyLink(form)} />
+                  <IconButton aria-label="Share on WhatsApp" icon={<ViewIcon />} size="sm" onClick={() => handleShareWhatsApp(form)} />
+                  <IconButton aria-label="View Submissions" icon={<ViewIcon />} size="sm" onClick={() => navigate(`/forms/${form.id}/submissions`)} />
+                  <IconButton aria-label="Delete" icon={<DeleteIcon />} size="sm" colorScheme="red" onClick={() => handleDelete(form)} />
+                </Flex>
+              </Box>
+            ))}
+          </VStack>
         </Box>
       </Container>
     </Box>

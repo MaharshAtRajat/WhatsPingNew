@@ -204,33 +204,35 @@ const FormView: React.FC = () => {
   }
 
   return (
-    <Container maxW="container.md" py={8}>
+    <Container maxW={{ base: '100%', md: 'container.md' }} py={{ base: 4, md: 8 }} px={{ base: 2, md: 8 }}>
       <VStack spacing={8} align="stretch">
         <Box>
-          <Heading size="lg" mb={2}>
+          <Heading size={{ base: 'md', md: 'lg' }} mb={2} textAlign={{ base: 'center', md: 'left' }}>
             {form.title}
           </Heading>
           {form.description && (
-            <Text color="gray.600" mb={4}>
+            <Text color="gray.600" mb={4} fontSize={{ base: 'sm', md: 'md' }} textAlign={{ base: 'center', md: 'left' }}>
               {form.description}
             </Text>
           )}
         </Box>
 
         <form onSubmit={handleSubmit}>
-          <VStack spacing={6}>
+          <VStack spacing={6} align="stretch">
             {form.fields.map((field: any) => (
               <FormControl
                 key={field.id}
                 isRequired={field.required || field.type === 'email'}
                 isInvalid={!!errors[field.id]}
+                w="100%"
               >
-                <FormLabel>{field.label} {(field.required || field.type === 'email') && <span style={{ color: 'red' }}>*</span>}</FormLabel>
+                <FormLabel fontSize={{ base: 'sm', md: 'md' }}>{field.label} {(field.required || field.type === 'email') && <span style={{ color: 'red' }}>*</span>}</FormLabel>
                 {field.type === 'text' && (
                   <Input
                     value={formData[field.id] || ''}
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
                     placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
+                    size={{ base: 'sm', md: 'md' }}
                   />
                 )}
                 {field.type === 'textarea' && (
@@ -238,6 +240,7 @@ const FormView: React.FC = () => {
                     value={formData[field.id] || ''}
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
                     placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
+                    size={{ base: 'sm', md: 'md' }}
                   />
                 )}
                 {field.type === 'number' && (
@@ -246,6 +249,7 @@ const FormView: React.FC = () => {
                     value={formData[field.id] || ''}
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
                     placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
+                    size={{ base: 'sm', md: 'md' }}
                   />
                 )}
                 {field.type === 'tel' && (
@@ -255,6 +259,7 @@ const FormView: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value.replace(/[^0-9]/g, '') })}
                     placeholder={field.placeholder || 'Enter 10-digit phone number'}
                     maxLength={10}
+                    size={{ base: 'sm', md: 'md' }}
                   />
                 )}
                 {field.type === 'email' && (
@@ -263,6 +268,7 @@ const FormView: React.FC = () => {
                     value={formData[field.id] || ''}
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
                     placeholder={field.placeholder || 'Enter your email'}
+                    size={{ base: 'sm', md: 'md' }}
                   />
                 )}
                 {field.type === 'date' && (
@@ -270,6 +276,7 @@ const FormView: React.FC = () => {
                     type="date"
                     value={formData[field.id] || ''}
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
+                    size={{ base: 'sm', md: 'md' }}
                   />
                 )}
                 {field.type === 'time' && (
@@ -277,6 +284,7 @@ const FormView: React.FC = () => {
                     type="time"
                     value={formData[field.id] || ''}
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
+                    size={{ base: 'sm', md: 'md' }}
                   />
                 )}
                 {field.type === 'select' && (
@@ -284,6 +292,7 @@ const FormView: React.FC = () => {
                     value={formData[field.id] || ''}
                     onChange={(e) => setFormData({ ...formData, [field.id]: e.target.value })}
                     placeholder="Select an option"
+                    size={{ base: 'sm', md: 'md' }}
                   >
                     {field.options?.map((option: string) => (
                       <option key={option} value={option}>
@@ -293,7 +302,7 @@ const FormView: React.FC = () => {
                   </Select>
                 )}
                 {field.type === 'radio' && (
-                  <Stack direction="row">
+                  <Stack direction={{ base: 'column', md: 'row' }}>
                     {field.options?.map((option: string) => (
                       <label key={option} style={{ display: 'flex', alignItems: 'center', marginRight: 16 }}>
                         <input
@@ -309,7 +318,7 @@ const FormView: React.FC = () => {
                   </Stack>
                 )}
                 {field.type === 'checkbox' && (
-                  <Stack direction="row">
+                  <Stack direction={{ base: 'column', md: 'row' }}>
                     {field.options?.map((option: string) => (
                       <label key={option} style={{ display: 'flex', alignItems: 'center', marginRight: 16 }}>
                         <input
@@ -340,10 +349,11 @@ const FormView: React.FC = () => {
 
             <Button
               type="submit"
-              colorScheme="green"
+              colorScheme="blue"
               size="lg"
-              width="full"
+              width={{ base: '100%', md: 'full' }}
               isLoading={isSubmitting}
+              fontSize={{ base: 'md', md: 'lg' }}
             >
               Submit
             </Button>
