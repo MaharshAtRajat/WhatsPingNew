@@ -31,6 +31,8 @@ import {
   useColorModeValue,
   Divider,
   VStack,
+  Icon,
+  Image,
 } from '@chakra-ui/react';
 import { AddIcon, ChevronDownIcon, CopyIcon, DeleteIcon, EditIcon, ExternalLinkIcon, RepeatIcon, ViewIcon } from '@chakra-ui/icons';
 import { supabase } from '../utils/supabase';
@@ -103,9 +105,14 @@ const Dashboard: React.FC = () => {
       const { data, error } = await supabase
         .from('forms')
         .insert({
-          ...form,
-          id: undefined,
-          title: `${form.title} (Copy)`
+          title: `${form.title} (Copy)`,
+          description: form.description,
+          fields: form.fields,
+          status: 'draft',
+          user_id: user?.id,
+          whatsapp_number: form.whatsapp_number,
+          country_code: form.country_code,
+          submission_message: form.submission_message
         })
         .select()
         .single();
@@ -289,7 +296,7 @@ const Dashboard: React.FC = () => {
                           <MenuItem icon={<EditIcon />} onClick={() => navigate(`/forms/${form.id}/edit`)}>Edit</MenuItem>
                           <MenuItem icon={<CopyIcon />} onClick={() => handleDuplicate(form)}>Duplicate</MenuItem>
                           <MenuItem icon={<ExternalLinkIcon />} onClick={() => handleCopyLink(form)}>Copy Link</MenuItem>
-                          <MenuItem icon={<ViewIcon />} onClick={() => handleShareWhatsApp(form)}>Share on WhatsApp</MenuItem>
+                          <MenuItem icon={<Image src="/whatsapp-icon.png" w={4} h={4} alt="WhatsApp" />} onClick={() => handleShareWhatsApp(form)}>Share on WhatsApp</MenuItem>
                           <MenuItem icon={<ViewIcon />} onClick={() => navigate(`/forms/${form.id}/submissions`)}>View Submissions</MenuItem>
                           <MenuItem icon={<DeleteIcon />} color="red.500" onClick={() => handleDelete(form)}>Delete</MenuItem>
                         </MenuList>
@@ -327,7 +334,7 @@ const Dashboard: React.FC = () => {
                   <IconButton aria-label="Edit" icon={<EditIcon />} size="sm" onClick={() => navigate(`/forms/${form.id}/edit`)} />
                   <IconButton aria-label="Duplicate" icon={<CopyIcon />} size="sm" onClick={() => handleDuplicate(form)} />
                   <IconButton aria-label="Copy Link" icon={<ExternalLinkIcon />} size="sm" onClick={() => handleCopyLink(form)} />
-                  <IconButton aria-label="Share on WhatsApp" icon={<ViewIcon />} size="sm" onClick={() => handleShareWhatsApp(form)} />
+                  <IconButton aria-label="Share on WhatsApp" icon={<Image src="/whatsapp-icon.png" w={4} h={4} alt="WhatsApp" />} size="sm" onClick={() => handleShareWhatsApp(form)} />
                   <IconButton aria-label="View Submissions" icon={<ViewIcon />} size="sm" onClick={() => navigate(`/forms/${form.id}/submissions`)} />
                   <IconButton aria-label="Delete" icon={<DeleteIcon />} size="sm" colorScheme="red" onClick={() => handleDelete(form)} />
                 </Flex>

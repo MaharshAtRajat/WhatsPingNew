@@ -12,7 +12,7 @@ import {
   useToast,
   Container,
 } from '@chakra-ui/react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -100,7 +100,7 @@ const SignUp: React.FC = () => {
 
               <Button
                 type="submit"
-                colorScheme="blue"
+                colorScheme="green"
                 width="100%"
                 isLoading={isLoading}
               >
@@ -114,8 +114,8 @@ const SignUp: React.FC = () => {
           Already have an account?{' '}
           <Button
             variant="link"
-            colorScheme="blue"
-            onClick={() => navigate('/login')}
+            colorScheme="green"
+            onClick={() => navigate('/signin')}
           >
             Sign In
           </Button>

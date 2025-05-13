@@ -20,6 +20,8 @@ import {
   MenuList,
   MenuItem,
   IconButton,
+  VStack,
+  Flex,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, DownloadIcon } from '@chakra-ui/icons';
 import { supabase } from '../utils/supabase';
@@ -247,34 +249,72 @@ const Submissions: React.FC = () => {
       {submissions.length === 0 ? (
         <Text>No submissions yet</Text>
       ) : (
-        <Box overflowX="auto">
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Submitted At</Th>
-                <Th>Status</Th>
-                {form.fields.map(field => (
-                  <Th key={field.id}>{field.label}</Th>
-                ))}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {submissions.map(submission => (
-                <Tr key={submission.id}>
-                  <Td>{new Date(submission.submitted_at).toLocaleString()}</Td>
-                  <Td>
-                    <Badge colorScheme={getStatusColor(submission.status)}>
-                      {submission.status}
-                    </Badge>
-                  </Td>
+        <>
+          {/* Desktop Table View */}
+          <Box display={{ base: 'none', md: 'block' }} overflowX="auto">
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>Submitted At</Th>
+                  <Th>Status</Th>
                   {form.fields.map(field => (
-                    <Td key={field.id}>{submission.data[field.id] || '-'}</Td>
+                    <Th key={field.id}>{field.label}</Th>
                   ))}
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Box>
+              </Thead>
+              <Tbody>
+                {submissions.map(submission => (
+                  <Tr key={submission.id}>
+                    <Td>{new Date(submission.submitted_at).toLocaleString()}</Td>
+                    <Td>
+                      <Badge colorScheme={getStatusColor(submission.status)}>
+                        {submission.status}
+                      </Badge>
+                    </Td>
+                    {form.fields.map(field => (
+                      <Td key={field.id}>{submission.data[field.id] || '-'}</Td>
+                    ))}
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
+
+          {/* Mobile Card View */}
+          <VStack display={{ base: 'flex', md: 'none' }} spacing={4} align="stretch">
+            {submissions.map(submission => (
+              <Box
+                key={submission.id}
+                p={4}
+                borderWidth={1}
+                borderRadius="md"
+                boxShadow="sm"
+                bg="white"
+              >
+                <Flex justify="space-between" align="center" mb={2}>
+                  <Text fontSize="sm" color="gray.500">
+                    {new Date(submission.submitted_at).toLocaleString()}
+                  </Text>
+                  <Badge colorScheme={getStatusColor(submission.status)}>
+                    {submission.status}
+                  </Badge>
+                </Flex>
+                <VStack align="stretch" spacing={2}>
+                  {form.fields.map(field => (
+                    <Box key={field.id}>
+                      <Text fontSize="sm" fontWeight="medium" color="gray.700">
+                        {field.label}:
+                      </Text>
+                      <Text fontSize="sm" color="gray.600">
+                        {submission.data[field.id] || '-'}
+                      </Text>
+                    </Box>
+                  ))}
+                </VStack>
+              </Box>
+            ))}
+          </VStack>
+        </>
       )}
     </Container>
   );

@@ -50,7 +50,7 @@ const SignIn: React.FC = () => {
             <Heading size={{ base: 'xs', md: 'sm' }}>Sign in to your account</Heading>
             <Text color="gray.600">
               Don't have an account?{' '}
-              <RouterLink to="/signup" style={{ color: 'blue' }}>
+              <RouterLink to="/signup" style={{ color: 'green' }}>
                 Sign up
               </RouterLink>
             </Text>
@@ -89,7 +89,7 @@ const SignIn: React.FC = () => {
               </Stack>
               <Button
                 type="submit"
-                colorScheme="blue"
+                colorScheme="green"
                 size="lg"
                 fontSize="md"
                 isLoading={isLoading}
