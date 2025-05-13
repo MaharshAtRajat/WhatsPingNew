@@ -12,3 +12,12 @@ client/.cache/
 
 # OS files
 .DS_Store
+
+# eslint cache
+.eslintcache
+
+# yarn cache
+.yarn/
+
+# bun cache
+.bun/
