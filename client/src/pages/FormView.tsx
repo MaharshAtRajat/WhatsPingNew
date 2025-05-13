@@ -340,7 +340,7 @@ const FormView: React.FC = () => {
 
             <Button
               type="submit"
-              colorScheme="blue"
+              colorScheme="green"
               size="lg"
               width="full"
               isLoading={isSubmitting}
